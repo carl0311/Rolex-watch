@@ -121,6 +121,13 @@ export const RolexWatch: React.FC = () => {
             <stop offset="90%" stopColor="#ccc" />
             <stop offset="100%" stopColor="#888" />
           </linearGradient>
+          <linearGradient id="polishedSteel" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#f7f7f7" />
+            <stop offset="18%" stopColor="#c9c9c9" />
+            <stop offset="42%" stopColor="#ffffff" />
+            <stop offset="65%" stopColor="#b2b2b2" />
+            <stop offset="100%" stopColor="#f0f0f0" />
+          </linearGradient>
 
           {/* 2. CASE LUGS TEXTURE (Satin finish) */}
           <linearGradient id="lugSteel" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -142,6 +149,11 @@ export const RolexWatch: React.FC = () => {
           <radialGradient id="dialBlack" cx="50%" cy="50%" r="50%">
             <stop offset="80%" stopColor="#000" />
             <stop offset="100%" stopColor="#1a1a1a" />
+          </radialGradient>
+          <radialGradient id="dialVignette" cx="45%" cy="35%" r="70%">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.2)" />
+            <stop offset="35%" stopColor="rgba(255,255,255,0.05)" />
+            <stop offset="100%" stopColor="rgba(0,0,0,0.55)" />
           </radialGradient>
 
           {/* 5. GOLD/STEEL INDICES BORDER */}
@@ -169,6 +181,13 @@ export const RolexWatch: React.FC = () => {
                 <feFlood floodColor="black" floodOpacity="1" result="color" />
                 <feComposite operator="in" in="color" in2="inverse" result="shadow" />
                 <feComposite operator="over" in="shadow" in2="SourceGraphic" />
+            </filter>
+            <filter id="microTexture" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="8" result="noise" />
+                <feColorMatrix in="noise" type="saturate" values="0" />
+                <feComponentTransfer>
+                  <feFuncA type="table" tableValues="0 0.08" />
+                </feComponentTransfer>
             </filter>
             
             <clipPath id="clipTop">
@@ -211,7 +230,7 @@ export const RolexWatch: React.FC = () => {
         </g>
 
         {/* --- OUTER BEZEL (Knurled Steel Edge) --- */}
-        <circle cx="200" cy="200" r="198" fill="#c0c0c0" />
+        <circle cx="200" cy="200" r="198" fill="url(#polishedSteel)" />
         {/* Simulated teeth */}
         <circle cx="200" cy="200" r="195" fill="none" stroke="#888" strokeWidth="4" strokeDasharray="2 4" />
 
@@ -235,6 +254,8 @@ export const RolexWatch: React.FC = () => {
         
         {/* Main Dial Surface */}
         <circle cx="200" cy="200" r="145" fill="url(#dialBlack)" />
+        <circle cx="200" cy="200" r="145" fill="url(#dialVignette)" opacity="0.55" />
+        <circle cx="200" cy="200" r="145" fill="#fff" filter="url(#microTexture)" opacity="0.45" />
         
         {/* Minute Ticks */}
         {renderTicks()}
@@ -345,6 +366,8 @@ export const RolexWatch: React.FC = () => {
 
         {/* Crystal Reflection (Flash) */}
         <path d="M100,60 L180,60 L140,340 L60,340 Z" fill="white" opacity="0.03" transform="rotate(-45 200 200)" pointerEvents="none" />
+        <ellipse cx="235" cy="95" rx="95" ry="36" fill="white" opacity="0.07" transform="rotate(18 235 95)" pointerEvents="none" />
+        <path d="M150,72 C198,62 265,92 292,128" stroke="rgba(255,255,255,0.28)" strokeWidth="2.2" fill="none" strokeLinecap="round" pointerEvents="none" />
 
       </svg>
     </div>
